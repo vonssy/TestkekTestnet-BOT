@@ -724,24 +724,24 @@ class Testkek:
     def print_wrap_question(self):
         while True:
             try:
-                wrap_amount = float(input(f"{Fore.YELLOW + Style.BRIGHT}Enter UOMI Amount -> {Style.RESET_ALL}").strip())
+                wrap_amount = float(input(f"{Fore.YELLOW + Style.BRIGHT}Enter BTC Amount -> {Style.RESET_ALL}").strip())
                 if wrap_amount > 0:
                     self.wrap_amount = wrap_amount
                     break
                 else:
-                    print(f"{Fore.RED + Style.BRIGHT}UOMI Amount must be > 0.{Style.RESET_ALL}")
+                    print(f"{Fore.RED + Style.BRIGHT}BTC Amount must be > 0.{Style.RESET_ALL}")
             except ValueError:
                 print(f"{Fore.RED + Style.BRIGHT}Invalid input. Enter a float or decimal number.{Style.RESET_ALL}")
     
     def print_unwrap_question(self):
         while True:
             try:
-                wrap_amount = float(input(f"{Fore.YELLOW + Style.BRIGHT}Enter WUOMI Amount -> {Style.RESET_ALL}").strip())
+                wrap_amount = float(input(f"{Fore.YELLOW + Style.BRIGHT}Enter WBTC Amount -> {Style.RESET_ALL}").strip())
                 if wrap_amount > 0:
                     self.wrap_amount = wrap_amount
                     break
                 else:
-                    print(f"{Fore.RED + Style.BRIGHT}WUOMI Amount must be > 0.{Style.RESET_ALL}")
+                    print(f"{Fore.RED + Style.BRIGHT}WBTC Amount must be > 0.{Style.RESET_ALL}")
             except ValueError:
                 print(f"{Fore.RED + Style.BRIGHT}Invalid input. Enter a float or decimal number.{Style.RESET_ALL}")
 
@@ -749,15 +749,15 @@ class Testkek:
         while True:
             try:
                 print(f"{Fore.GREEN + Style.BRIGHT}Select Option:{Style.RESET_ALL}")
-                print(f"{Fore.WHITE + Style.BRIGHT}1. Wrap UOMI{Style.RESET_ALL}")
-                print(f"{Fore.WHITE + Style.BRIGHT}2. Unwrap WUOMI{Style.RESET_ALL}")
+                print(f"{Fore.WHITE + Style.BRIGHT}1. Wrap BTC{Style.RESET_ALL}")
+                print(f"{Fore.WHITE + Style.BRIGHT}2. Unwrap WBTC{Style.RESET_ALL}")
                 print(f"{Fore.WHITE + Style.BRIGHT}3. Skipped{Style.RESET_ALL}")
                 wrap_option = int(input(f"{Fore.BLUE + Style.BRIGHT}Choose [1/2/3] -> {Style.RESET_ALL}").strip())
 
                 if wrap_option in [1, 2, 3]:
                     wrap_type = (
-                        "Wrap UOMI" if wrap_option == 1 else 
-                        "Unwrap WUOMI" if wrap_option == 2 else 
+                        "Wrap BTC" if wrap_option == 1 else 
+                        "Unwrap WBTC" if wrap_option == 2 else 
                         "Skipped"
                     )
                     print(f"{Fore.GREEN + Style.BRIGHT}{wrap_type} Selected.{Style.RESET_ALL}")
