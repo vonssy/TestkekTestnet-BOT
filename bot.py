@@ -248,29 +248,41 @@ class Testkek:
 
     def generate_swap_option(self):
         swap_options = [
+            # BTC swaps
+            ("native to erc20", "BTC", "WBTC", self.WBTC_CONTRACT_ADDRESS, self.WBTC_CONTRACT_ADDRESS, self.btc_swap_amount),
             ("native to erc20", "BTC", "BERA", self.WBTC_CONTRACT_ADDRESS, self.BERA_CONTRACT_ADDRESS, self.btc_swap_amount),
             ("native to erc20", "BTC", "WBERA", self.WBTC_CONTRACT_ADDRESS, self.WBERA_CONTRACT_ADDRESS, self.btc_swap_amount),
             ("native to erc20", "BTC", "HONEY", self.WBTC_CONTRACT_ADDRESS, self.HONEY_CONTRACT_ADDRESS, self.btc_swap_amount),
             ("native to erc20", "BTC", "WETH", self.WBTC_CONTRACT_ADDRESS, self.WETH_CONTRACT_ADDRESS, self.btc_swap_amount),
+            
+            # WBTC swaps
             ("erc20 to erc20", "WBTC", "BERA", self.WBTC_CONTRACT_ADDRESS, self.BERA_CONTRACT_ADDRESS, self.wbtc_swap_amount),
             ("erc20 to erc20", "WBTC", "WBERA", self.WBTC_CONTRACT_ADDRESS, self.WBERA_CONTRACT_ADDRESS, self.wbtc_swap_amount),
             ("erc20 to erc20", "WBTC", "HONEY", self.WBTC_CONTRACT_ADDRESS, self.HONEY_CONTRACT_ADDRESS, self.wbtc_swap_amount),
             ("erc20 to erc20", "WBTC", "WETH", self.WBTC_CONTRACT_ADDRESS, self.WETH_CONTRACT_ADDRESS, self.wbtc_swap_amount),
+            
+            # BERA swaps
             ("erc20 to native", "BERA", "BTC", self.BERA_CONTRACT_ADDRESS, self.WBTC_CONTRACT_ADDRESS, self.bera_swap_amount),
             ("erc20 to erc20", "BERA", "WBTC", self.BERA_CONTRACT_ADDRESS, self.WBTC_CONTRACT_ADDRESS, self.bera_swap_amount),
             ("erc20 to erc20", "BERA", "WBERA", self.BERA_CONTRACT_ADDRESS, self.WBERA_CONTRACT_ADDRESS, self.bera_swap_amount),
             ("erc20 to erc20", "BERA", "HONEY", self.BERA_CONTRACT_ADDRESS, self.HONEY_CONTRACT_ADDRESS, self.bera_swap_amount),
             ("erc20 to erc20", "BERA", "WETH", self.BERA_CONTRACT_ADDRESS, self.WETH_CONTRACT_ADDRESS, self.bera_swap_amount),
+            
+            # WBERA swaps
             ("erc20 to native", "WBERA", "BTC", self.WBERA_CONTRACT_ADDRESS, self.WBTC_CONTRACT_ADDRESS, self.wbera_swap_amount),
             ("erc20 to erc20", "WBERA", "WBTC", self.WBERA_CONTRACT_ADDRESS, self.WBTC_CONTRACT_ADDRESS, self.wbera_swap_amount),
             ("erc20 to erc20", "WBERA", "BERA", self.WBERA_CONTRACT_ADDRESS, self.BERA_CONTRACT_ADDRESS, self.wbera_swap_amount),
             ("erc20 to erc20", "WBERA", "HONEY", self.WBERA_CONTRACT_ADDRESS, self.HONEY_CONTRACT_ADDRESS, self.wbera_swap_amount),
             ("erc20 to erc20", "WBERA", "WETH", self.WBERA_CONTRACT_ADDRESS, self.WETH_CONTRACT_ADDRESS, self.wbera_swap_amount),
+            
+            # HONEY swaps
             ("erc20 to native", "HONEY", "BTC", self.HONEY_CONTRACT_ADDRESS, self.WBTC_CONTRACT_ADDRESS, self.honey_swap_amount),
             ("erc20 to erc20", "HONEY", "WBTC", self.HONEY_CONTRACT_ADDRESS, self.WBTC_CONTRACT_ADDRESS, self.honey_swap_amount),
             ("erc20 to erc20", "HONEY", "BERA", self.HONEY_CONTRACT_ADDRESS, self.BERA_CONTRACT_ADDRESS, self.honey_swap_amount),
             ("erc20 to erc20", "HONEY", "WBERA", self.HONEY_CONTRACT_ADDRESS, self.WBERA_CONTRACT_ADDRESS, self.honey_swap_amount),
             ("erc20 to erc20", "HONEY", "WETH", self.HONEY_CONTRACT_ADDRESS, self.WETH_CONTRACT_ADDRESS, self.honey_swap_amount),
+            
+            # WETH swaps
             ("erc20 to native", "WETH", "BTC", self.WETH_CONTRACT_ADDRESS, self.WBTC_CONTRACT_ADDRESS, self.weth_swap_amount),
             ("erc20 to erc20", "WETH", "WBTC", self.WETH_CONTRACT_ADDRESS, self.WBTC_CONTRACT_ADDRESS, self.weth_swap_amount),
             ("erc20 to erc20", "WETH", "BERA", self.WETH_CONTRACT_ADDRESS, self.BERA_CONTRACT_ADDRESS, self.weth_swap_amount),
@@ -286,7 +298,7 @@ class Testkek:
         swap_options = [
             ("native", "BTC", "BERA", self.WBTC_CONTRACT_ADDRESS, self.BERA_CONTRACT_ADDRESS, self.btc_liquidity_amount),
             ("native", "BTC", "WBERA", self.WBTC_CONTRACT_ADDRESS, self.WBERA_CONTRACT_ADDRESS, self.btc_liquidity_amount),
-            # ("native", "BTC", "HONEY", self.WBTC_CONTRACT_ADDRESS, self.HONEY_CONTRACT_ADDRESS, self.btc_liquidity_amount),
+            ("native", "BTC", "HONEY", self.WBTC_CONTRACT_ADDRESS, self.HONEY_CONTRACT_ADDRESS, self.btc_liquidity_amount),
             ("native", "BTC", "WETH", self.WBTC_CONTRACT_ADDRESS, self.WETH_CONTRACT_ADDRESS, self.btc_liquidity_amount),
             ("erc20", "WBTC", "BERA", self.WBTC_CONTRACT_ADDRESS, self.BERA_CONTRACT_ADDRESS, self.wbtc_liquidity_amount),
             ("erc20", "WBTC", "WBERA", self.WBTC_CONTRACT_ADDRESS, self.WBERA_CONTRACT_ADDRESS, self.wbtc_liquidity_amount),
@@ -954,17 +966,19 @@ class Testkek:
                 print(f"{Fore.RED + Style.BRIGHT}Invalid input. Enter a number.{Style.RESET_ALL}")
          
     async def print_timer(self):
-        for remaining in range(random.randint(self.min_delay, self.max_delay), 0, -1):
-            print(
-                f"{Fore.CYAN + Style.BRIGHT}[ {datetime.now().astimezone(wib).strftime('%x %X %Z')} ]{Style.RESET_ALL}"
-                f"{Fore.WHITE + Style.BRIGHT} | {Style.RESET_ALL}"
-                f"{Fore.BLUE + Style.BRIGHT}Wait For{Style.RESET_ALL}"
-                f"{Fore.WHITE + Style.BRIGHT} {remaining} {Style.RESET_ALL}"
-                f"{Fore.BLUE + Style.BRIGHT}Seconds For Next Tx...{Style.RESET_ALL}",
-                end="\r",
-                flush=True
-            )
-            await asyncio.sleep(1)
+        if self.min_delay > 0 or self.max_delay > 0:
+            delay = random.randint(self.min_delay, self.max_delay)
+            for remaining in range(delay, 0, -1):
+                print(
+                    f"{Fore.CYAN + Style.BRIGHT}[ {datetime.now().astimezone(wib).strftime('%x %X %Z')} ]{Style.RESET_ALL}"
+                    f"{Fore.WHITE + Style.BRIGHT} | {Style.RESET_ALL}"
+                    f"{Fore.BLUE + Style.BRIGHT}Wait For{Style.RESET_ALL}"
+                    f"{Fore.WHITE + Style.BRIGHT} {remaining} {Style.RESET_ALL}"
+                    f"{Fore.BLUE + Style.BRIGHT}Seconds For Next Tx...{Style.RESET_ALL}",
+                    end="\r",
+                    flush=True
+                )
+                await asyncio.sleep(1)
 
     def print_question(self):
         while True:
@@ -1360,14 +1374,14 @@ class Testkek:
             if option == 1:
                 self.log(
                     f"{Fore.CYAN+Style.BRIGHT}Option    :{Style.RESET_ALL}"
-                    f"{Fore.BLUE+Style.BRIGHT} Wrap UOMI {Style.RESET_ALL}"
+                    f"{Fore.BLUE+Style.BRIGHT} Wrap BTC {Style.RESET_ALL}"
                 )
                 await self.process_option_1(account, address, use_proxy)
 
             elif option == 2:
                 self.log(
                     f"{Fore.CYAN+Style.BRIGHT}Option    :{Style.RESET_ALL}"
-                    f"{Fore.BLUE+Style.BRIGHT} Unwrap WUOMI {Style.RESET_ALL}"
+                    f"{Fore.BLUE+Style.BRIGHT} Unwrap WBTC {Style.RESET_ALL}"
                 )
                 await self.process_option_2(account, address, use_proxy)
 
@@ -1444,7 +1458,7 @@ class Testkek:
                             )
                             continue
 
-                        await self.process_accounts(account, address, option, use_proxy_choice, rotate_proxy)
+                        await self.process_accounts(account, address, option, use_proxy, rotate_proxy)
                         await asyncio.sleep(3)
 
                 self.log(f"{Fore.CYAN + Style.BRIGHT}={Style.RESET_ALL}"*72)
