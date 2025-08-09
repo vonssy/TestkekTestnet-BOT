@@ -248,6 +248,7 @@ class Testkek:
 
     def generate_swap_option(self):
         swap_options = [
+            ("native to erc20", "BTC", "WBTC", self.WBTC_CONTRACT_ADDRESS, self.WBTC_CONTRACT_ADDRESS, self.btc_swap_amount),
             ("native to erc20", "BTC", "BERA", self.WBTC_CONTRACT_ADDRESS, self.BERA_CONTRACT_ADDRESS, self.btc_swap_amount),
             ("native to erc20", "BTC", "WBERA", self.WBTC_CONTRACT_ADDRESS, self.WBERA_CONTRACT_ADDRESS, self.btc_swap_amount),
             ("native to erc20", "BTC", "HONEY", self.WBTC_CONTRACT_ADDRESS, self.HONEY_CONTRACT_ADDRESS, self.btc_swap_amount),
@@ -286,7 +287,7 @@ class Testkek:
         swap_options = [
             ("native", "BTC", "BERA", self.WBTC_CONTRACT_ADDRESS, self.BERA_CONTRACT_ADDRESS, self.btc_liquidity_amount),
             ("native", "BTC", "WBERA", self.WBTC_CONTRACT_ADDRESS, self.WBERA_CONTRACT_ADDRESS, self.btc_liquidity_amount),
-            # ("native", "BTC", "HONEY", self.WBTC_CONTRACT_ADDRESS, self.HONEY_CONTRACT_ADDRESS, self.btc_liquidity_amount),
+            ("native", "BTC", "HONEY", self.WBTC_CONTRACT_ADDRESS, self.HONEY_CONTRACT_ADDRESS, self.btc_liquidity_amount),
             ("native", "BTC", "WETH", self.WBTC_CONTRACT_ADDRESS, self.WETH_CONTRACT_ADDRESS, self.btc_liquidity_amount),
             ("erc20", "WBTC", "BERA", self.WBTC_CONTRACT_ADDRESS, self.BERA_CONTRACT_ADDRESS, self.wbtc_liquidity_amount),
             ("erc20", "WBTC", "WBERA", self.WBTC_CONTRACT_ADDRESS, self.WBERA_CONTRACT_ADDRESS, self.wbtc_liquidity_amount),
@@ -1360,14 +1361,14 @@ class Testkek:
             if option == 1:
                 self.log(
                     f"{Fore.CYAN+Style.BRIGHT}Option    :{Style.RESET_ALL}"
-                    f"{Fore.BLUE+Style.BRIGHT} Wrap UOMI {Style.RESET_ALL}"
+                    f"{Fore.BLUE+Style.BRIGHT} Wrap BTC {Style.RESET_ALL}"
                 )
                 await self.process_option_1(account, address, use_proxy)
 
             elif option == 2:
                 self.log(
                     f"{Fore.CYAN+Style.BRIGHT}Option    :{Style.RESET_ALL}"
-                    f"{Fore.BLUE+Style.BRIGHT} Unwrap WUOMI {Style.RESET_ALL}"
+                    f"{Fore.BLUE+Style.BRIGHT} Unwrap WBTC {Style.RESET_ALL}"
                 )
                 await self.process_option_2(account, address, use_proxy)
 
@@ -1444,7 +1445,7 @@ class Testkek:
                             )
                             continue
 
-                        await self.process_accounts(account, address, option, use_proxy_choice, rotate_proxy)
+                        await self.process_accounts(account, address, option, use_proxy, rotate_proxy)
                         await asyncio.sleep(3)
 
                 self.log(f"{Fore.CYAN + Style.BRIGHT}={Style.RESET_ALL}"*72)
