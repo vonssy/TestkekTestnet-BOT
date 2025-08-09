@@ -183,7 +183,7 @@ class Testkek:
 
     def check_proxy_schemes(self, proxies):
         schemes = ["http://", "https://", "socks4://", "socks5://"]
-        if any(proxies.startswith(scheme) for scheme in schemes:
+        if any(proxies.startswith(scheme) for scheme in schemes):
             return proxies
         return f"http://{proxies}"
 
