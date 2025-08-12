@@ -245,42 +245,51 @@ class Testkek:
             return mask_account
         except Exception as e:
             return None
-
+        
     def generate_swap_option(self):
-        swap_options = [
-            ("native to erc20", "BTC", "BERA", self.WBTC_CONTRACT_ADDRESS, self.BERA_CONTRACT_ADDRESS, self.btc_swap_amount),
-            ("native to erc20", "BTC", "WBERA", self.WBTC_CONTRACT_ADDRESS, self.WBERA_CONTRACT_ADDRESS, self.btc_swap_amount),
-            ("native to erc20", "BTC", "HONEY", self.WBTC_CONTRACT_ADDRESS, self.HONEY_CONTRACT_ADDRESS, self.btc_swap_amount),
-            ("native to erc20", "BTC", "WETH", self.WBTC_CONTRACT_ADDRESS, self.WETH_CONTRACT_ADDRESS, self.btc_swap_amount),
-            ("erc20 to erc20", "WBTC", "BERA", self.WBTC_CONTRACT_ADDRESS, self.BERA_CONTRACT_ADDRESS, self.wbtc_swap_amount),
-            ("erc20 to erc20", "WBTC", "WBERA", self.WBTC_CONTRACT_ADDRESS, self.WBERA_CONTRACT_ADDRESS, self.wbtc_swap_amount),
-            ("erc20 to erc20", "WBTC", "HONEY", self.WBTC_CONTRACT_ADDRESS, self.HONEY_CONTRACT_ADDRESS, self.wbtc_swap_amount),
-            ("erc20 to erc20", "WBTC", "WETH", self.WBTC_CONTRACT_ADDRESS, self.WETH_CONTRACT_ADDRESS, self.wbtc_swap_amount),
-            ("erc20 to native", "BERA", "BTC", self.BERA_CONTRACT_ADDRESS, self.WBTC_CONTRACT_ADDRESS, self.bera_swap_amount),
-            ("erc20 to erc20", "BERA", "WBTC", self.BERA_CONTRACT_ADDRESS, self.WBTC_CONTRACT_ADDRESS, self.bera_swap_amount),
-            ("erc20 to erc20", "BERA", "WBERA", self.BERA_CONTRACT_ADDRESS, self.WBERA_CONTRACT_ADDRESS, self.bera_swap_amount),
-            ("erc20 to erc20", "BERA", "HONEY", self.BERA_CONTRACT_ADDRESS, self.HONEY_CONTRACT_ADDRESS, self.bera_swap_amount),
-            ("erc20 to erc20", "BERA", "WETH", self.BERA_CONTRACT_ADDRESS, self.WETH_CONTRACT_ADDRESS, self.bera_swap_amount),
-            ("erc20 to native", "WBERA", "BTC", self.WBERA_CONTRACT_ADDRESS, self.WBTC_CONTRACT_ADDRESS, self.wbera_swap_amount),
-            ("erc20 to erc20", "WBERA", "WBTC", self.WBERA_CONTRACT_ADDRESS, self.WBTC_CONTRACT_ADDRESS, self.wbera_swap_amount),
-            ("erc20 to erc20", "WBERA", "BERA", self.WBERA_CONTRACT_ADDRESS, self.BERA_CONTRACT_ADDRESS, self.wbera_swap_amount),
-            ("erc20 to erc20", "WBERA", "HONEY", self.WBERA_CONTRACT_ADDRESS, self.HONEY_CONTRACT_ADDRESS, self.wbera_swap_amount),
-            ("erc20 to erc20", "WBERA", "WETH", self.WBERA_CONTRACT_ADDRESS, self.WETH_CONTRACT_ADDRESS, self.wbera_swap_amount),
-            ("erc20 to native", "HONEY", "BTC", self.HONEY_CONTRACT_ADDRESS, self.WBTC_CONTRACT_ADDRESS, self.honey_swap_amount),
-            ("erc20 to erc20", "HONEY", "WBTC", self.HONEY_CONTRACT_ADDRESS, self.WBTC_CONTRACT_ADDRESS, self.honey_swap_amount),
-            ("erc20 to erc20", "HONEY", "BERA", self.HONEY_CONTRACT_ADDRESS, self.BERA_CONTRACT_ADDRESS, self.honey_swap_amount),
-            ("erc20 to erc20", "HONEY", "WBERA", self.HONEY_CONTRACT_ADDRESS, self.WBERA_CONTRACT_ADDRESS, self.honey_swap_amount),
-            ("erc20 to erc20", "HONEY", "WETH", self.HONEY_CONTRACT_ADDRESS, self.WETH_CONTRACT_ADDRESS, self.honey_swap_amount),
-            ("erc20 to native", "WETH", "BTC", self.WETH_CONTRACT_ADDRESS, self.WBTC_CONTRACT_ADDRESS, self.weth_swap_amount),
-            ("erc20 to erc20", "WETH", "WBTC", self.WETH_CONTRACT_ADDRESS, self.WBTC_CONTRACT_ADDRESS, self.weth_swap_amount),
-            ("erc20 to erc20", "WETH", "BERA", self.WETH_CONTRACT_ADDRESS, self.BERA_CONTRACT_ADDRESS, self.weth_swap_amount),
-            ("erc20 to erc20", "WETH", "WBERA", self.WETH_CONTRACT_ADDRESS, self.WBERA_CONTRACT_ADDRESS, self.weth_swap_amount),
-            ("erc20 to erc20", "WETH", "HONEY", self.WETH_CONTRACT_ADDRESS, self.HONEY_CONTRACT_ADDRESS, self.weth_swap_amount)
+        token_data = {
+            "BTC": (self.WBTC_CONTRACT_ADDRESS, self.btc_swap_amount),
+            "WBTC": (self.WBTC_CONTRACT_ADDRESS, self.wbtc_swap_amount),
+            "BERA": (self.BERA_CONTRACT_ADDRESS, self.bera_swap_amount),
+            "WBERA": (self.WBERA_CONTRACT_ADDRESS, self.wbera_swap_amount),
+            "HONEY": (self.HONEY_CONTRACT_ADDRESS, self.honey_swap_amount),
+            "WETH": (self.WETH_CONTRACT_ADDRESS, self.weth_swap_amount)
+        }
+
+        tickers = list(token_data.keys())
+
+        exceptions = [
+            ("WBERA", "BERA"),
+            ("WBERA", "HONEY"),
+            ("WBERA", "WETH"),
+            ("HONEY", "WBERA"),
+            ("HONEY", "WETH")
         ]
 
-        swap_type, from_ticker, to_ticker, from_token, to_token, amount_in = random.choice(swap_options)
+        while True:
+            from_ticker = random.choice(tickers)
+            to_ticker = random.choice(tickers)
 
-        return swap_type, from_ticker, to_ticker, from_token, to_token, amount_in
+            if (from_ticker, to_ticker) in exceptions:
+                continue
+
+            if from_ticker == to_ticker:
+                continue
+
+            if (from_ticker == "BTC" and to_ticker == "WBTC") or (from_ticker == "WBTC" and to_ticker == "BTC"):
+                continue
+
+            if from_ticker == "BTC":
+                swap_type = "native to erc20"
+            elif to_ticker == "BTC":
+                swap_type = "erc20 to native"
+            else:
+                swap_type = "erc20 to erc20"
+
+            from_token, amount_in = token_data[from_ticker]
+            to_token, _ = token_data[to_ticker]
+
+            return swap_type, from_ticker, to_ticker, from_token, to_token, amount_in
 
     def generate_liquidity_option(self):
         swap_options = [
@@ -522,7 +531,7 @@ class Testkek:
         except Exception as e:
             raise Exception(f"Approving Token Contract Failed: {str(e)}")
         
-    def generate_multicall_bytes_data(self, address: str, swap_type: str, from_token: str, to_token: str, amount_in_wei: int, amount_out_min_wei: int):
+    def generate_multicall_bytes_data(self, address: str, swap_type: str, fee: int, from_token: str, to_token: str, amount_in_wei: int, amount_out_min_wei: int):
         try:
             if swap_type in ["native to erc20", "erc20 to erc20"]:
                 exact_input_single_prefix = bytes.fromhex('04e45aaf')
@@ -531,14 +540,14 @@ class Testkek:
                     [
                         from_token,
                         to_token,
-                        3000,
+                        fee,
                         address,
                         amount_in_wei,
                         amount_out_min_wei,
                         0
                     ]
                 )
-                
+            
                 data_bytes = [exact_input_single_prefix + exact_input_single_bytes]
 
             elif swap_type == "erc20 to native":
@@ -548,8 +557,8 @@ class Testkek:
                     [
                         from_token,
                         to_token,
-                        3000,
-                        address,
+                        fee,
+                        "0x0000000000000000000000000000000000000002",
                         amount_in_wei,
                         amount_out_min_wei,
                         0
@@ -577,10 +586,17 @@ class Testkek:
 
             amount_in_wei = web3.to_wei(amount_in, "ether")
 
+            exceptions = [
+                (self.BERA_CONTRACT_ADDRESS, self.WETH_CONTRACT_ADDRESS),
+                (self.WETH_CONTRACT_ADDRESS, self.BERA_CONTRACT_ADDRESS)
+            ]
+
+            fee = 500 if swap_type == "erc20 to native" or (from_token, to_token) in exceptions else 3000
+
             if swap_type != "native to erc20":
                 await self.approving_token(account, address, self.MULTICALL_ROUTER_ADDRESS, from_token, amount_in_wei, use_proxy)
 
-            path = bytes.fromhex(from_token[2:]) + (3000).to_bytes(3, "big") + bytes.fromhex(to_token[2:])
+            path = bytes.fromhex(from_token[2:]) + (fee).to_bytes(3, "big") + bytes.fromhex(to_token[2:])
 
             amount_out_wei = await self.get_amount_out_min(address, path, amount_in_wei, use_proxy)
             if not amount_out_wei:
@@ -590,7 +606,7 @@ class Testkek:
 
             deadline = int(time.time()) + 600
 
-            data_bytes = self.generate_multicall_bytes_data(address, swap_type, from_token, to_token, amount_in_wei, amount_out_min_wei)
+            data_bytes = self.generate_multicall_bytes_data(address, swap_type, fee, from_token, to_token, amount_in_wei, amount_out_min_wei)
 
             max_priority_fee = web3.to_wei(0.1, "gwei")
             max_fee = max_priority_fee
@@ -1347,15 +1363,16 @@ class Testkek:
         if is_valid:
             try:
                 web3 = await self.get_web3_with_check(address, use_proxy)
-                if not web3: return
-                
-                self.used_nonce[address] = web3.eth.get_transaction_count(address, "pending")
-
             except Exception as e:
-                return self.log(
-                    f"{Fore.CYAN+Style.BRIGHT}Status    :{Style.RESET_ALL}"
+                self.log(
+                    f"{Fore.CYAN+Style.BRIGHT}Status  :{Style.RESET_ALL}"
+                    f"{Fore.RED+Style.BRIGHT} Web3 Not Connected {Style.RESET_ALL}"
+                    f"{Fore.MAGENTA+Style.BRIGHT}-{Style.RESET_ALL}"
                     f"{Fore.YELLOW+Style.BRIGHT} {str(e)} {Style.RESET_ALL}"
                 )
+                return
+            
+            self.used_nonce[address] = web3.eth.get_transaction_count(address, "pending")
             
             if option == 1:
                 self.log(
