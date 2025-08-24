@@ -587,7 +587,6 @@ class Testkek:
             amount_in_wei = web3.to_wei(amount_in, "ether")
 
             exceptions = [
-                (self.BERA_CONTRACT_ADDRESS, self.WETH_CONTRACT_ADDRESS),
                 (self.WETH_CONTRACT_ADDRESS, self.BERA_CONTRACT_ADDRESS)
             ]
 
@@ -653,8 +652,15 @@ class Testkek:
         
     def generate_liquidity_calldata(self, address: str, token_type: str, token0: str, token1: str, amount0_desired: int, amount1_desired: int):
         try:
-            amount0_min = (amount0_desired * (10000 - 100)) // 10000
-            amount1_min = (amount1_desired * (10000 - 100)) // 10000
+            exceptions = [
+                (self.WETH_CONTRACT_ADDRESS, self.BERA_CONTRACT_ADDRESS)
+            ]
+
+            slippage = 500 if (token0, token1) in exceptions else 100 
+
+            amount0_min = (amount0_desired * (10000 - slippage)) // 10000
+            amount1_min = (amount1_desired * (10000 - slippage)) // 10000
+
             deadline = int(time.time()) + 600
 
             if token_type == "native":
