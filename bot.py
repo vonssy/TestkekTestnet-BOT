@@ -1206,11 +1206,11 @@ class Testkek:
 
         balance = await self.get_token_balance(address, "BTC", use_proxy)
         self.log(
-            f"{Fore.CYAN+Style.BRIGHT}   Balance :{Style.RESET_ALL}"
+            f"{Fore.CYAN+Style.BRIGHT}   Balance  :{Style.RESET_ALL}"
             f"{Fore.WHITE+Style.BRIGHT} {balance} BTC {Style.RESET_ALL}"
         )
         self.log(
-            f"{Fore.CYAN+Style.BRIGHT}   Amount  :{Style.RESET_ALL}"
+            f"{Fore.CYAN+Style.BRIGHT}   Amount   :{Style.RESET_ALL}"
             f"{Fore.WHITE+Style.BRIGHT} {self.wrap_amount} BTC {Style.RESET_ALL}"
         )
 
@@ -1377,14 +1377,14 @@ class Testkek:
             if option == 1:
                 self.log(
                     f"{Fore.CYAN+Style.BRIGHT}Option    :{Style.RESET_ALL}"
-                    f"{Fore.BLUE+Style.BRIGHT} Wrap UOMI {Style.RESET_ALL}"
+                    f"{Fore.BLUE+Style.BRIGHT} Wrap BTC {Style.RESET_ALL}"
                 )
                 await self.process_option_1(account, address, use_proxy)
 
             elif option == 2:
                 self.log(
                     f"{Fore.CYAN+Style.BRIGHT}Option    :{Style.RESET_ALL}"
-                    f"{Fore.BLUE+Style.BRIGHT} Unwrap WUOMI {Style.RESET_ALL}"
+                    f"{Fore.BLUE+Style.BRIGHT} Unwrap WBTC {Style.RESET_ALL}"
                 )
                 await self.process_option_2(account, address, use_proxy)
 
